@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Отчёт тестирования — U-Net (ResNet18 encoder)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 { color: #333; border-bottom: 2px solid #4CAF50; padding-bottom: 10px; }
+        .summary {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .summary-card {
+            flex: 1;
+            min-width: 150px;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+        }
+        .card-total { background: #2196F3; }
+        .card-passed { background: #4CAF50; }
+        .card-failed { background: #f44336; }
+        .card-error { background: #FF9800; }
+        .summary-card .value { font-size: 32px; }
+        .summary-card .label { font-size: 14px; opacity: 0.9; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th {
+            background: #333;
+            color: white;
+            padding: 10px;
+            text-align: left;
+        }
+        td { padding: 8px 10px; border-bottom: 1px solid #ddd; }
+        tr.passed { background: #e8f5e9; }
+        tr.failed { background: #ffebee; }
+        .footer {
+            margin-top: 30px;
+            color: #666;
+            font-size: 12px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Отчёт тестирования</h1>
+        <p><strong>Алгоритм:</strong> U-Net (ResNet18 encoder)</p>
+        <p><strong>Дата:</strong> 23.05.2026 12:19:20</p>
+
+        <div class="summary">
+            <div class="summary-card card-total">
+                <div class="value">100</div>
+                <div class="label">Всего изображений</div>
+            </div>
+            <div class="summary-card card-passed">
+                <div class="value">29</div>
+                <div class="label">Пройдено (&le;10%)</div>
+            </div>
+            <div class="summary-card card-failed">
+                <div class="value">71</div>
+                <div class="label">Провалено</div>
+            </div>
+            <div class="summary-card card-error">
+                <div class="value">29.0%</div>
+                <div class="label">Процент успеха</div>
+            </div>
+        </div>
+
+        <p>Средняя погрешность: <strong>51.87%</strong></p>
+
+        <h2>Детальные результаты</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Файл</th>
+                    <th>Эталон</th>
+                    <th>Найдено</th>
+                    <th>Погрешность</th>
+                    <th>Время</th>
+                    <th>Статус</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+            <tr class="failed">
+                <td>sample_0559_count_6.png</td>
+                <td>6</td>
+                <td>5</td>
+                <td>16.7%</td>
+                <td>0.17 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0483_count_6.png</td>
+                <td>6</td>
+                <td>3</td>
+                <td>50.0%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_1303_count_5.png</td>
+                <td>5</td>
+                <td>4</td>
+                <td>20.0%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0821_count_2.png</td>
+                <td>2</td>
+                <td>9</td>
+                <td>350.0%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="passed">
+                <td>sample_1063_count_6.png</td>
+                <td>6</td>
+                <td>6</td>
+                <td>0.0%</td>
+                <td>0.04 с</td>
+                <td>✓ ПРОЙДЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0848_count_3.png</td>
+                <td>3</td>
+                <td>6</td>
+                <td>100.0%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0874_count_4.png</td>
+                <td>4</td>
+                <td>7</td>
+                <td>75.0%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="passed">
+                <td>sample_1166_count_2.png</td>
+                <td>2</td>
+                <td>2</td>
+                <td>0.0%</td>
+                <td>0.04 с</td>
+                <td>✓ ПРОЙДЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0039_count_7.png</td>
+                <td>7</td>
+                <td>1</td>
+                <td>85.7%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_1437_count_4.png</td>
+                <td>4</td>
+                <td>3</td>
+                <td>25.0%</td>
+                <td>0.05 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_1090_count_8.png</td>
+                <td>8</td>
+                <td>1</td>
+                <td>87.5%</td>
+                <td>0.05 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0625_count_4.png</td>
+                <td>4</td>
+                <td>2</td>
+                <td>50.0%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0160_count_1.png</td>
+                <td>1</td>
+                <td>5</td>
+                <td>400.0%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="passed">
+                <td>sample_1184_count_0.png</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0.0%</td>
+                <td>0.04 с</td>
+                <td>✓ ПРОЙДЕН</td>
+            </tr>
+            <tr class="passed">
+                <td>sample_0293_count_0.png</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0.0%</td>
+                <td>0.04 с</td>
+                <td>✓ ПРОЙДЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_1230_count_6.png</td>
+                <td>6</td>
+                <td>4</td>
+                <td>33.3%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0904_count_3.png</td>
+                <td>3</td>
+                <td>6</td>
+                <td>100.0%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="passed">
+                <td>sample_0280_count_0.png</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0.0%</td>
+                <td>0.04 с</td>
+                <td>✓ ПРОЙДЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_1310_count_8.png</td>
+                <td>8</td>
+                <td>5</td>
+                <td>37.5%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_1334_count_3.png</td>
+                <td>3</td>
+                <td>7</td>
+                <td>133.3%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0428_count_7.png</td>
+                <td>7</td>
+                <td>3</td>
+                <td>57.1%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_1490_count_8.png</td>
+                <td>8</td>
+                <td>7</td>
+                <td>12.5%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="passed">
+                <td>sample_0472_count_0.png</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0.0%</td>
+                <td>0.04 с</td>
+                <td>✓ ПРОЙДЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_1479_count_1.png</td>
+                <td>1</td>
+                <td>2</td>
+                <td>100.0%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="passed">
+                <td>sample_0380_count_2.png</td>
+                <td>2</td>
+                <td>2</td>
+                <td>0.0%</td>
+                <td>0.04 с</td>
+                <td>✓ ПРОЙДЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0443_count_1.png</td>
+                <td>1</td>
+                <td>5</td>
+                <td>400.0%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_1462_count_1.png</td>
+                <td>1</td>
+                <td>2</td>
+                <td>100.0%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0620_count_8.png</td>
+                <td>8</td>
+                <td>1</td>
+                <td>87.5%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="passed">
+                <td>sample_0284_count_2.png</td>
+                <td>2</td>
+                <td>2</td>
+                <td>0.0%</td>
+                <td>0.04 с</td>
+                <td>✓ ПРОЙДЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0981_count_6.png</td>
+                <td>6</td>
+                <td>3</td>
+                <td>50.0%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_1203_count_8.png</td>
+                <td>8</td>
+                <td>2</td>
+                <td>75.0%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0316_count_4.png</td>
+                <td>4</td>
+                <td>2</td>
+                <td>50.0%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0054_count_4.png</td>
+                <td>4</td>
+                <td>2</td>
+                <td>50.0%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_1132_count_7.png</td>
+                <td>7</td>
+                <td>5</td>
+                <td>28.6%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_1083_count_4.png</td>
+                <td>4</td>
+                <td>3</td>
+                <td>25.0%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0016_count_4.png</td>
+                <td>4</td>
+                <td>2</td>
+                <td>50.0%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="passed">
+                <td>sample_1228_count_2.png</td>
+                <td>2</td>
+                <td>2</td>
+                <td>0.0%</td>
+                <td>0.04 с</td>
+                <td>✓ ПРОЙДЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0872_count_3.png</td>
+                <td>3</td>
+                <td>2</td>
+                <td>33.3%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0260_count_3.png</td>
+                <td>3</td>
+                <td>4</td>
+                <td>33.3%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0179_count_8.png</td>
+                <td>8</td>
+                <td>4</td>
+                <td>50.0%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0384_count_6.png</td>
+                <td>6</td>
+                <td>3</td>
+                <td>50.0%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0288_count_4.png</td>
+                <td>4</td>
+                <td>5</td>
+                <td>25.0%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_1267_count_8.png</td>
+                <td>8</td>
+                <td>5</td>
+                <td>37.5%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0050_count_0.png</td>
+                <td>0</td>
+                <td>4</td>
+                <td>100.0%</td>
+                <td>0.03 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_1073_count_4.png</td>
+                <td>4</td>
+                <td>3</td>
+                <td>25.0%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0829_count_6.png</td>
+                <td>6</td>
+                <td>4</td>
+                <td>33.3%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="passed">
+                <td>sample_0026_count_1.png</td>
+                <td>1</td>
+                <td>1</td>
+                <td>0.0%</td>
+                <td>0.04 с</td>
+                <td>✓ ПРОЙДЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_1143_count_8.png</td>
+                <td>8</td>
+                <td>2</td>
+                <td>75.0%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_1059_count_8.png</td>
+                <td>8</td>
+                <td>3</td>
+                <td>62.5%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0493_count_4.png</td>
+                <td>4</td>
+                <td>1</td>
+                <td>75.0%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="passed">
+                <td>sample_1472_count_6.png</td>
+                <td>6</td>
+                <td>6</td>
+                <td>0.0%</td>
+                <td>0.04 с</td>
+                <td>✓ ПРОЙДЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_1085_count_5.png</td>
+                <td>5</td>
+                <td>3</td>
+                <td>40.0%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="passed">
+                <td>sample_0530_count_3.png</td>
+                <td>3</td>
+                <td>3</td>
+                <td>0.0%</td>
+                <td>0.04 с</td>
+                <td>✓ ПРОЙДЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_1296_count_5.png</td>
+                <td>5</td>
+                <td>4</td>
+                <td>20.0%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="passed">
+                <td>sample_0547_count_6.png</td>
+                <td>6</td>
+                <td>6</td>
+                <td>0.0%</td>
+                <td>0.04 с</td>
+                <td>✓ ПРОЙДЕН</td>
+            </tr>
+            <tr class="passed">
+                <td>sample_0741_count_4.png</td>
+                <td>4</td>
+                <td>4</td>
+                <td>0.0%</td>
+                <td>0.04 с</td>
+                <td>✓ ПРОЙДЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_1240_count_6.png</td>
+                <td>6</td>
+                <td>3</td>
+                <td>50.0%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_1341_count_8.png</td>
+                <td>8</td>
+                <td>2</td>
+                <td>75.0%</td>
+                <td>0.05 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0653_count_8.png</td>
+                <td>8</td>
+                <td>2</td>
+                <td>75.0%</td>
+                <td>0.05 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="passed">
+                <td>sample_1096_count_2.png</td>
+                <td>2</td>
+                <td>2</td>
+                <td>0.0%</td>
+                <td>0.05 с</td>
+                <td>✓ ПРОЙДЕН</td>
+            </tr>
+            <tr class="passed">
+                <td>sample_0222_count_1.png</td>
+                <td>1</td>
+                <td>1</td>
+                <td>0.0%</td>
+                <td>0.05 с</td>
+                <td>✓ ПРОЙДЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_1393_count_8.png</td>
+                <td>8</td>
+                <td>2</td>
+                <td>75.0%</td>
+                <td>0.05 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="passed">
+                <td>sample_1419_count_5.png</td>
+                <td>5</td>
+                <td>5</td>
+                <td>0.0%</td>
+                <td>0.05 с</td>
+                <td>✓ ПРОЙДЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_1055_count_6.png</td>
+                <td>6</td>
+                <td>5</td>
+                <td>16.7%</td>
+                <td>0.05 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0429_count_0.png</td>
+                <td>0</td>
+                <td>4</td>
+                <td>100.0%</td>
+                <td>0.05 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="passed">
+                <td>sample_0048_count_6.png</td>
+                <td>6</td>
+                <td>6</td>
+                <td>0.0%</td>
+                <td>0.05 с</td>
+                <td>✓ ПРОЙДЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0294_count_7.png</td>
+                <td>7</td>
+                <td>3</td>
+                <td>57.1%</td>
+                <td>0.05 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="passed">
+                <td>sample_0774_count_1.png</td>
+                <td>1</td>
+                <td>1</td>
+                <td>0.0%</td>
+                <td>0.05 с</td>
+                <td>✓ ПРОЙДЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0407_count_5.png</td>
+                <td>5</td>
+                <td>7</td>
+                <td>40.0%</td>
+                <td>0.05 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_1388_count_2.png</td>
+                <td>2</td>
+                <td>3</td>
+                <td>50.0%</td>
+                <td>0.05 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0250_count_5.png</td>
+                <td>5</td>
+                <td>3</td>
+                <td>40.0%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_1038_count_6.png</td>
+                <td>6</td>
+                <td>5</td>
+                <td>16.7%</td>
+                <td>0.05 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="passed">
+                <td>sample_1225_count_3.png</td>
+                <td>3</td>
+                <td>3</td>
+                <td>0.0%</td>
+                <td>0.05 с</td>
+                <td>✓ ПРОЙДЕН</td>
+            </tr>
+            <tr class="passed">
+                <td>sample_0966_count_0.png</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0.0%</td>
+                <td>0.05 с</td>
+                <td>✓ ПРОЙДЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_1052_count_5.png</td>
+                <td>5</td>
+                <td>4</td>
+                <td>20.0%</td>
+                <td>0.05 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0512_count_5.png</td>
+                <td>5</td>
+                <td>2</td>
+                <td>60.0%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0390_count_3.png</td>
+                <td>3</td>
+                <td>1</td>
+                <td>66.7%</td>
+                <td>0.05 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0495_count_4.png</td>
+                <td>4</td>
+                <td>3</td>
+                <td>25.0%</td>
+                <td>0.05 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0604_count_2.png</td>
+                <td>2</td>
+                <td>3</td>
+                <td>50.0%</td>
+                <td>0.05 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_1153_count_8.png</td>
+                <td>8</td>
+                <td>5</td>
+                <td>37.5%</td>
+                <td>0.05 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="passed">
+                <td>sample_1147_count_2.png</td>
+                <td>2</td>
+                <td>2</td>
+                <td>0.0%</td>
+                <td>0.05 с</td>
+                <td>✓ ПРОЙДЕН</td>
+            </tr>
+            <tr class="passed">
+                <td>sample_0207_count_0.png</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0.0%</td>
+                <td>0.05 с</td>
+                <td>✓ ПРОЙДЕН</td>
+            </tr>
+            <tr class="passed">
+                <td>sample_1150_count_3.png</td>
+                <td>3</td>
+                <td>3</td>
+                <td>0.0%</td>
+                <td>0.04 с</td>
+                <td>✓ ПРОЙДЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0796_count_7.png</td>
+                <td>7</td>
+                <td>3</td>
+                <td>57.1%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="passed">
+                <td>sample_0519_count_1.png</td>
+                <td>1</td>
+                <td>1</td>
+                <td>0.0%</td>
+                <td>0.04 с</td>
+                <td>✓ ПРОЙДЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0490_count_4.png</td>
+                <td>4</td>
+                <td>3</td>
+                <td>25.0%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0487_count_1.png</td>
+                <td>1</td>
+                <td>2</td>
+                <td>100.0%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0581_count_4.png</td>
+                <td>4</td>
+                <td>3</td>
+                <td>25.0%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0302_count_1.png</td>
+                <td>1</td>
+                <td>5</td>
+                <td>400.0%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0705_count_3.png</td>
+                <td>3</td>
+                <td>2</td>
+                <td>33.3%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0569_count_7.png</td>
+                <td>7</td>
+                <td>5</td>
+                <td>28.6%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_1199_count_7.png</td>
+                <td>7</td>
+                <td>4</td>
+                <td>42.9%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="passed">
+                <td>sample_0778_count_6.png</td>
+                <td>6</td>
+                <td>6</td>
+                <td>0.0%</td>
+                <td>0.04 с</td>
+                <td>✓ ПРОЙДЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_0847_count_0.png</td>
+                <td>0</td>
+                <td>3</td>
+                <td>100.0%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_1005_count_4.png</td>
+                <td>4</td>
+                <td>5</td>
+                <td>25.0%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="passed">
+                <td>sample_1092_count_0.png</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0.0%</td>
+                <td>0.04 с</td>
+                <td>✓ ПРОЙДЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_1398_count_8.png</td>
+                <td>8</td>
+                <td>0</td>
+                <td>100.0%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="failed">
+                <td>sample_1460_count_7.png</td>
+                <td>7</td>
+                <td>1</td>
+                <td>85.7%</td>
+                <td>0.04 с</td>
+                <td>✗ ПРОВАЛЕН</td>
+            </tr>
+            <tr class="passed">
+                <td>sample_0383_count_1.png</td>
+                <td>1</td>
+                <td>1</td>
+                <td>0.0%</td>
+                <td>0.04 с</td>
+                <td>✓ ПРОЙДЕН</td>
+            </tr>
+            <tr class="passed">
+                <td>sample_0265_count_2.png</td>
+                <td>2</td>
+                <td>2</td>
+                <td>0.0%</td>
+                <td>0.04 с</td>
+                <td>✓ ПРОЙДЕН</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="footer">
+            Система подсчёта клеток на гистологических изображениях &copy; 2025
+        </div>
+    </div>
+</body>
+</html>

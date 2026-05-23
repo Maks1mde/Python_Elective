@@ -42,7 +42,7 @@ class ResNet18Model(AlgorithmMeta, algorithm_name="resnet18"):
 
     def __init__(
         self,
-        model_path: str | None = None,
+        model_path: str | None = "models/resnet18_weights.pth",
         device: str | None = None,
         threshold: float = 0.5,
         min_area: int = 30,

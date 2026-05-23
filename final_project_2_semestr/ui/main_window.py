@@ -175,12 +175,63 @@ class MainWindow(QMainWindow):
         )
 
     def _generate_images(self):
-        """Генерация изображений (заглушка)."""
-        QMessageBox.information(
-            self, "Генератор",
-            "Генерация изображений ещё не реализована.\n"
-            "Здесь будет создание синтетических гистологических изображений."
-        )
+        """Генерация синтетических изображений."""
+        from PyQt5.QtWidgets import QInputDialog, QDialog, QFormLayout, QSpinBox, QLineEdit, QDialogButtonBox
+        from dataset_generator import generate_dataset, extract_patches
+
+        # Диалог настроек
+        dialog = QDialog(self)
+        dialog.setWindowTitle("Настройки генератора")
+        layout = QFormLayout(dialog)
+
+        sp_num = QSpinBox()
+        sp_num.setRange(100, 5000)
+        sp_num.setValue(1500)
+        layout.addRow("Количество изображений:", sp_num)
+
+        sp_max = QSpinBox()
+        sp_max.setRange(1, 20)
+        sp_max.setValue(8)
+        layout.addRow("Максимум пятен:", sp_max)
+
+        le_bg = QLineEdit()
+        le_bg.setPlaceholderText("Опционально: папка с фонами")
+        layout.addRow("Папка фонов:", le_bg)
+
+        le_cell = QLineEdit()
+        le_cell.setPlaceholderText("Опционально: папка с клетками")
+        layout.addRow("Папка клеток:", le_cell)
+
+        le_out = QLineEdit("files/generated_samples")
+        layout.addRow("Папка вывода:", le_out)
+
+        buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        buttons.accepted.connect(dialog.accept)
+        buttons.rejected.connect(dialog.reject)
+        layout.addRow(buttons)
+
+        if dialog.exec() != QDialog.Accepted:
+            return
+
+        num = sp_num.value()
+        max_cells = sp_max.value()
+        out_dir = le_out.text()
+        bg_dir = le_bg.text()
+        cell_dir = le_cell.text()
+
+        # Генерация в отдельном потоке через TestRunner (упрощённо — сразу)
+        try:
+            QMessageBox.information(self, "Генератор", "Начинаем генерацию... Это может занять пару минут.")
+            generate_dataset(
+                output_dir=out_dir,
+                num_samples=num,
+                max_cells=max_cells,
+                bg_dir=bg_dir,
+                cell_dir=cell_dir,
+            )
+            QMessageBox.information(self, "Готово", f"Сгенерировано {num} изображений в {out_dir}")
+        except Exception as e:
+            QMessageBox.critical(self, "Ошибка", str(e))
 
     def _on_algorithm_changed(self, name: str):
         """Обработчик смены алгоритма."""

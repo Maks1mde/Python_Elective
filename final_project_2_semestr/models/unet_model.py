@@ -23,8 +23,8 @@ class DoubleConv(nn.Module):
 
 
 class UNet(nn.Module):
-    """U-Net с ResNet18 энкодером."""
-    def __init__(self):
+    """U-Net с ResNet18 энкодером — две версии conv0."""
+    def __init__(self, use_skip_input: bool = False):
         super().__init__()
         from torchvision.models import resnet18, ResNet18_Weights
         backbone = resnet18(weights=ResNet18_Weights.IMAGENET1K_V1)
@@ -49,7 +49,15 @@ class UNet(nn.Module):
         self.conv1 = DoubleConv(128, 64)
 
         self.up0 = nn.ConvTranspose2d(64, 32, 2, 2)
-        self.conv0 = DoubleConv(64, 32)
+        self.use_skip_input = use_skip_input
+        if use_skip_input:
+            self.conv0 = DoubleConv(64 + 3, 32)  # 64 от up0 + 3 от входа
+        else:
+            self.conv0_fix = nn.Sequential(
+                nn.Conv2d(32, 32, 3, padding=1, bias=False),
+                nn.BatchNorm2d(32),
+                nn.ReLU(inplace=True),
+            )
 
         self.final = nn.Conv2d(32, 1, 1)
 
@@ -78,17 +86,16 @@ class UNet(nn.Module):
         d1 = self.conv1(d1)
 
         d0 = self.up0(d1)
-        d0 = torch.cat([d0, x], dim=1)
-        d0 = self.conv0(d0)
+        if self.use_skip_input:
+            d0 = torch.cat([d0, x], dim=1)
+            d0 = self.conv0(d0)
+        else:
+            d0 = self.conv0_fix(d0)
 
         return self.final(d0)
 
 
 class UNetModel(AlgorithmMeta, algorithm_name="unet"):
-    """
-    Подсчёт пятен: U-Net + ResNet18 encoder.
-    """
-
     def __init__(
         self,
         model_path: str | None = "models/unet_weights.pth",
@@ -114,13 +121,20 @@ class UNetModel(AlgorithmMeta, algorithm_name="unet"):
         return "U-Net (ResNet18 encoder)"
 
     def _load_model(self):
-        model = UNet().to(self.device)
-        if self.model_path:
-            try:
-                state_dict = torch.load(self.model_path, map_location=self.device, weights_only=True)
-                model.load_state_dict(state_dict)
-            except FileNotFoundError:
-                pass  # Веса не найдены — используем без обучения
+        # Пробуем обе версии
+        for use_skip in [False, True]:
+            model = UNet(use_skip_input=use_skip).to(self.device)
+            if self.model_path:
+                try:
+                    state_dict = torch.load(self.model_path, map_location=self.device, weights_only=True)
+                    model.load_state_dict(state_dict, strict=True)
+                    model.eval()
+                    return model
+                except (FileNotFoundError, RuntimeError):
+                    continue
+
+        # Если не получилось — модель без весов
+        model = UNet(use_skip_input=False).to(self.device)
         model.eval()
         return model
 
@@ -155,21 +169,3 @@ class UNetModel(AlgorithmMeta, algorithm_name="unet"):
                 count += 1
 
         return count
-
-    def get_mask(self, image: np.ndarray) -> np.ndarray:
-        if self.model is None:
-            self.model = self._load_model()
-
-        orig_h, orig_w = image.shape[:2]
-        pad_h = (32 - orig_h % 32) % 32
-        pad_w = (32 - orig_w % 32) % 32
-        padded = cv2.copyMakeBorder(image, 0, pad_h, 0, pad_w, cv2.BORDER_REFLECT)
-
-        tensor = self.transform(padded).unsqueeze(0).to(self.device)
-
-        with torch.no_grad():
-            logits = self.model(tensor)
-            mask = torch.sigmoid(logits).squeeze().cpu().numpy()
-
-        mask = mask[:orig_h, :orig_w]
-        return (mask > self.threshold).astype(np.uint8) * 255
